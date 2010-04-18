@@ -1,0 +1,7 @@
+require "arel-mongo/attributes/object"
+require "arel-mongo/attributes/array"
+require "arel-mongo/attributes/date"
+require "arel-mongo/attributes/date_time"
+require "arel-mongo/attributes/hash"
+require "arel-mongo/attributes/regexp"
+require "arel-mongo/attributes/symbol"

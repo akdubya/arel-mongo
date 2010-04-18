@@ -5,8 +5,8 @@ begin
   require 'jeweler'
   Jeweler::Tasks.new do |gem|
     gem.name = "arel-mongo"
-    gem.summary = %Q{TODO: one-line summary of your gem}
-    gem.description = %Q{TODO: longer description of your gem}
+    gem.summary = %Q{MongoDB engine for Arel}
+    gem.description = %Q{MongoDB engine for Arel}
     gem.email = "alekswilliams@earthlink.net"
     gem.homepage = "http://github.com/akdubya/arel-mongo"
     gem.authors = ["akdubya"]

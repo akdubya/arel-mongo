@@ -4,6 +4,7 @@ require 'arel'
 require 'mongo'
 
 require 'arel-mongo/util/patches'
+require 'arel-mongo/attributes'
 require 'arel-mongo/engine'
 require 'arel-mongo/relations'
 require 'arel-mongo/primitives'

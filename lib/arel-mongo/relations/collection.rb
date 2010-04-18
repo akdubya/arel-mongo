@@ -6,8 +6,13 @@ module Arel
     attr_reader :name, :engine, :options
 
     def initialize(name, options={})
-      @name   = name.to_s
-      @engine = options.fetch(:engine, Collection.engine)
+      @name       = name.to_s
+      @engine     = options.fetch(:engine, Collection.engine)
+      @attributes = options[:attributes]
+    end
+
+    def attributes
+      @attributes ||= []
     end
   end
 end
