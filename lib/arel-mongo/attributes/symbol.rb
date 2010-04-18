@@ -1,5 +1,5 @@
-module Docodo
-  class Attribute
+module Arel
+  module Attributes
     class Symbol < Object
       def self.typecast(value)
         return value if value.nil? || value.kind_of?(::Symbol)
