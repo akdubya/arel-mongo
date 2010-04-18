@@ -1,0 +1,6 @@
+require 'arel-mongo/relations/utilities/compound'
+require 'arel-mongo/relations/relation'
+require 'arel-mongo/relations/collection'
+require 'arel-mongo/relations/cursor'
+require 'arel-mongo/relations/document'
+require 'arel-mongo/relations/writes'
