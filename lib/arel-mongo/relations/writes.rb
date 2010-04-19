@@ -37,7 +37,7 @@ module Arel
     def initialize(relation, record, options={})
       @relation = relation
       @options  = options
-      @record   = if Array === record
+      @record   = if ::Array === record
         record.map {|r| bind_to_record(r)}
       else
         bind_to_record(record)

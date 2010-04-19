@@ -1,8 +1,8 @@
 module Arel
   module Attributes
-    class Symbol < Object
-      def self.typecast(value)
-        return value if value.nil? || value.kind_of?(::Symbol)
+    class Symbol < Attribute
+      def type_cast(value)
+        return unless value
         value.to_sym
       end
     end

@@ -12,7 +12,7 @@ module Arel
     end
 
     def attributes
-      @attributes ||= []
+      @attributes ||= Header.new
     end
   end
 end

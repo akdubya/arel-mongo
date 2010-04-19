@@ -5,7 +5,7 @@ module Arel
         names = index.split('.')
         return build_element(names) if names.length > 1
       end
-      super
+      attributes[index] || Attribute.new(self, index)
     end
 
     module Writable

@@ -169,8 +169,8 @@ module Arel
         @attribute[:foo].to_mongo.should == 'name.foo'
       end
 
-      it 'accepts a nested argument' do
-        @attribute[:foo].to_mongo(false).should == 'foo'
+      it 'accepts a formatter argument' do
+        @attribute[:foo].to_mongo(Mongo::WhereCondition.new(@relation)).should == 'foo'
       end
     end
   end

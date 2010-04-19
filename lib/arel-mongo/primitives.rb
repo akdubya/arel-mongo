@@ -74,19 +74,42 @@ module Arel
       Element === relation
     end
 
+    def nested_name
+      nested? ? "#{relation.nested_name}.#{name}" : name.to_s
+    end
+
     def to_element
       Element.new(relation, name, {:alias => @alias, :ancestor => ancestor})
     end
 
-    def to_mongo(nest=nested?)
-      nest ? "#{relation.to_mongo}.#{name}" : name.to_s
+    def to_mongo(formatter=Mongo::NestedWhereCondition.new(relation))
+      formatter.attribute self
+    end
+
+    def type_cast(value)
+      if root == self
+        value
+      else
+        root.type_cast(value)
+      end
+    end
+    alias_method :typecast, :type_cast
+
+    def mongo_value(value)
+      type_cast(value)
+    end
+
+    def mongo_format(object)
+      object.to_mongo(Mongo::Attribute.new(self))
     end
   end
 
   class Element < Attribute
-    include Relation::AttributeAccessable
+    def [](index)
+      attributes[index] || Attribute.new(self, index)
+    end
 
-    def attributes; [] end
+    def attributes; Header.new end
   end
 
   class Expression < Attribute
@@ -135,8 +158,12 @@ module Arel
   end
 
   class Value
-    def to_mongo(*)
-      value
+    def to_mongo(formatter=Mongo::WhereCondition.new(relation))
+      formatter.value value
+    end
+
+    def mongo_format(object)
+      object.to_mongo(Mongo::Value.new(relation))
     end
   end
 

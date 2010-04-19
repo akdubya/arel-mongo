@@ -1,7 +1,7 @@
 module Arel
   module Attributes
-    class Regexp < Object
-      def self.typecast(value)
+    class Regexp < Attribute
+      def type_cast(value)
         return value if value.nil? || value.kind_of?(::Regexp)
         ::Regexp.new(value)
       end

@@ -4,19 +4,19 @@ module Arel
       def mongo_operator; end
 
       def to_mongo(*args)
-        {operand1.to_mongo(*args) => {mongo_operator => operand2.to_mongo(*args)}}
+        {operand1.to_mongo(*args) => {mongo_operator => operand1.mongo_format(operand2)}}
       end
     end
 
     class Equality < Binary
       def to_mongo(*args)
-        {operand1.to_mongo(*args) => operand2.to_mongo(*args)}
+        {operand1.to_mongo(*args) => operand1.mongo_format(operand2)}
       end
     end
 
     class Match < Binary
       def to_mongo(*args)
-        {operand1.to_mongo(*args) => operand2.to_mongo(*args)}
+        {operand1.to_mongo(*args) => operand1.mongo_format(operand2)}
       end
     end
 
@@ -98,8 +98,9 @@ module Arel
       end
 
       def mongofy
+        formatter = Mongo::WhereCondition.new(operand.relation)
         predicates.inject({}) do |hsh, predicate|
-          key, value = predicate.to_mongo(false).first
+          key, value = predicate.to_mongo(formatter).first
           if Hash === hsh[key] && predicate.mongo_operator
             hsh[key].merge!(value)
           else
