@@ -31,6 +31,10 @@ module Arel
       projections.any? {|proj| Arel::Count === proj && proj.attribute.named?(:_id)}
     end
 
+    def to_cursor
+      session.read(self).to_cursor
+    end
+
     def to_selector
       wheres.inject({}) do |hsh, predicate|
         key, value = predicate.to_mongo.first

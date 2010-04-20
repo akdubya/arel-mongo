@@ -8,6 +8,7 @@ module Arel
 
     def initialize(cursor, attribute_names_and_types)
       @cursor, @attribute_names_and_types = cursor, attribute_names_and_types
+      @cursor = @cursor.to_enum if Array === @cursor
     end
 
     def engine
@@ -24,12 +25,25 @@ module Arel
       end
     end
 
-    def format(attribute, value)
-      value
+    def to_cursor
+      self
+    end
+
+    def next
+      @cursor.next
+    end
+
+    def each
+      @cursor.each {|doc| yield Document.new(self, doc)}
+    end
+
+    def first
+      return unless doc = @cursor.first
+      Document.new(self, doc)
     end
 
     def eval
-      @cursor.collect { |r| Document.new(self, r) }
+      self
     end
   end
 end

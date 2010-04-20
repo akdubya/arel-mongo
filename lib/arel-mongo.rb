@@ -4,6 +4,7 @@ require 'arel'
 require 'mongo'
 
 require 'arel-mongo/util/patches'
+require 'arel-mongo/util/mongo'
 require 'arel-mongo/core_extensions/array'
 require 'arel-mongo/core_extensions/object'
 require 'arel-mongo/attributes'
