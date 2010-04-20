@@ -5,7 +5,7 @@ module Arel
         names = index.split('.')
         return build_element(names) if names.length > 1
       end
-      attributes[index] || Attribute.new(self, index)
+      attributes[index] || Attributes::Generic.new(self, index)
     end
 
     module Writable

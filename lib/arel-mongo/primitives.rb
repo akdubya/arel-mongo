@@ -86,15 +86,6 @@ module Arel
       formatter.attribute self
     end
 
-    def type_cast(value)
-      if root == self
-        value
-      else
-        root.type_cast(value)
-      end
-    end
-    alias_method :typecast, :type_cast
-
     def mongo_value(value)
       type_cast(value)
     end
@@ -106,7 +97,7 @@ module Arel
 
   class Element < Attribute
     def [](index)
-      attributes[index] || Attribute.new(self, index)
+      attributes[index] || Attributes::Generic.new(self, index)
     end
 
     def attributes; Header.new end
