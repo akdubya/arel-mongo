@@ -13,7 +13,7 @@ module Arel
           @predicate2 = @relation['foo.baz'].eq(Arel::Value.new(1, @relation['foo'].to_element))
         end
 
-        it 'manufactures a mongo elem match condition' do
+        it 'manufactures a mongo $elemMatch condition' do
           ElemMatch.new(@relation[:foo], @predicate1).to_mongo.should == {
             'foo' => {'$elemMatch' => {'bar' => 1}}
           }

@@ -5,7 +5,7 @@ module Arel
         map {|e| e.to_mongo(formatter)}
       end
 
-      Array.send(:include, self)
+      ::Array.send(:include, self)
     end
   end
 end

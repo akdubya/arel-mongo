@@ -15,7 +15,7 @@ module Arel
       end
 
       def value(value)
-        value.to_sql(self)
+        value.to_mongo(self)
       end
 
       def scalar(value)

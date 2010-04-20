@@ -12,7 +12,7 @@ module Arel
           @value = Arel::Value.new(/foo/, @relation)
         end
 
-        it 'manufactures a mongo match condition' do
+        it 'manufactures a mongo $match condition' do
           Match.new(@relation[:name], @value).to_mongo.should == {'name' => /foo/}
         end
       end

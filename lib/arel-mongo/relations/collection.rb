@@ -8,11 +8,14 @@ module Arel
     def initialize(name, options={})
       @name       = name.to_s
       @engine     = options.fetch(:engine, Collection.engine)
-      @attributes = options[:attributes]
+      @attributes = Header.new((options[:attributes] || []).map do |attr, type|
+        attr = type.new(self, attr) if Symbol === attr
+        attr
+      end)
     end
 
     def attributes
-      @attributes ||= Header.new
+      @attributes
     end
   end
 end

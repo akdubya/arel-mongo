@@ -1,5 +1,5 @@
 module Arel
-  module Sql
+  module Mongo
     module ObjectExtensions
       def to_mongo(formatter)
         formatter.scalar self
