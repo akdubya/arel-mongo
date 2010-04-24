@@ -8,20 +8,17 @@ module Arel
       attributes[index] || Attributes::Generic.new(self, index)
     end
 
-    module Writable
-      def insert(record, options={})
-        session.create Insert.new(self, record, options)
-      end
-
-      def update(assignments, options={})
-        session.update Update.new(self, assignments, options)
-      end
-
-      def delete(options={})
-        session.delete Deletion.new(self, options)
-      end
+    def insert(record, options={})
+      session.create Insert.new(self, record, options)
     end
-    include Writable
+
+    def update(assignments, options={})
+      session.update Update.new(self, assignments, options)
+    end
+
+    def delete(options={})
+      session.delete Deletion.new(self, options)
+    end
 
     def length
       project(self[:_id].count)
@@ -29,10 +26,6 @@ module Arel
 
     def count?
       projections.any? {|proj| Arel::Count === proj && proj.attribute.named?(:_id)}
-    end
-
-    def to_cursor
-      session.read(self).to_cursor
     end
 
     def to_selector
@@ -45,6 +38,10 @@ module Arel
         end
         hsh
       end
+    end
+
+    def to_enum
+      call.to_enum
     end
 
     def to_options

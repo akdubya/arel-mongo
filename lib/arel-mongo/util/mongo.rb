@@ -1,5 +1,13 @@
 module Mongo
   class Cursor
-    def next; next_document end
+    def next
+      doc = next_document
+      raise StopIteration unless doc
+      doc
+    end
+
+    def to_enum
+      self
+    end
   end
 end

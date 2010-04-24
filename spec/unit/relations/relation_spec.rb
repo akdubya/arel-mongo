@@ -42,11 +42,5 @@ module Arel
         end
       end
     end
-
-    describe '#to_cursor' do
-      it 'returns an Arel::Cursor' do
-        @relation.to_cursor.should be_a_kind_of Cursor
-      end
-    end
   end
 end
