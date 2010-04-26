@@ -9,20 +9,6 @@ module Arel
       @attribute2 = @relation[:name]
     end
 
-    describe '#[]' do
-      describe 'when given a dot-notation string' do
-        it 'manufactures a nested attribute' do
-          @relation['name.foo'].should == @relation[:name]['foo']
-        end
-      end
-
-      describe 'when given a non-existant attribute name' do
-        it 'manufactures a generic attribute' do
-          @relation[:foo].should == Attributes::Generic.new(@relation, :foo)
-        end
-      end
-    end
-
     describe Relation::Writable do
       describe '#insert' do
         it 'takes an options hash' do

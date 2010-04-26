@@ -70,16 +70,18 @@ module Arel
       to_element[index]
     end
 
+    def to_element(target=nil)
+      opts = {:alias => @alias, :ancestor => self}
+      opts[:target] = target if target
+      Element.new(relation, name, opts)
+    end
+
     def nested?
       Element === relation
     end
 
     def nested_name
       nested? ? "#{relation.nested_name}.#{name}" : name.to_s
-    end
-
-    def to_element
-      Element.new(relation, name, {:alias => @alias, :ancestor => ancestor})
     end
 
     def to_mongo(formatter=Mongo::NestedWhereCondition.new(relation))
@@ -96,11 +98,25 @@ module Arel
   end
 
   class Element < Attribute
+    attr_reader :target, :attributes
+
     def [](index)
       attributes[index] || Attributes::Generic.new(self, index)
     end
 
-    def attributes; Header.new end
+    def to_element(new_target=nil)
+      if new_target && new_target != target
+        Element.new(relation, name, {:alias => @alias, :ancestor => self, :target => new_target})
+      else
+        self
+      end
+    end
+
+    def initialize(relation, name, options={})
+      super
+      @target     = options.fetch(:target, Embedded.new(name))
+      @attributes = target.attributes.bind(self)
+    end
   end
 
   class Expression < Attribute

@@ -3,7 +3,7 @@ require 'spec_helper'
 module Arel
   describe Attribute do
     before do
-      @relation = Arel::Collection.new(:users)
+      @relation = Collection.new(:users)
     end
 
     describe Attribute::Predications do
@@ -128,7 +128,13 @@ module Arel
       end
 
       it 'manufactures an element from an attribute' do
-        @attribute.to_element.should == Element.new(@relation, :name)
+        @attribute.to_element.should == Element.new(@relation, :name, {:ancestor => @attribute})
+      end
+
+      it 'sets the element target if a target relation is given' do
+        new_rel = Embedded.new(:foo)
+        @attribute.to_element(new_rel).should == Element.new(@relation, :name, {:ancestor => @attribute,
+          :target => new_rel})
       end
     end
 
@@ -137,7 +143,7 @@ module Arel
         @attribute = Attribute.new(@relation, :name)
       end
 
-      it 'manufactures an element attribute' do
+      it 'manufactures an attribute bound to an element' do
         @attribute[:foo].should == Attribute.new(@relation[:name].to_element, :foo)
       end
     end

@@ -25,6 +25,16 @@ module Arel
           }
         end
       end
+
+      describe '#bind' do
+        before do
+          @predicate = @relation['foo.bar'].eq(Arel::Value.new(1, @relation['foo'].to_element))
+        end
+
+        it 'manufactures a new ElemMatch bound to the relation' do
+          ElemMatch.new(@relation[:foo], @predicate1).bind(@relation)
+        end
+      end
     end
   end
 end
