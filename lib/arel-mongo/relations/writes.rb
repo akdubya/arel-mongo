@@ -1,15 +1,6 @@
 require 'active_support/core_ext/array/wrap'
 
 module Arel
-  class Compound
-    def bind_to_record(object)
-      return object.bind(self) unless Hash === object
-      object.inject({}) do |bound, (key, value)|
-        bound.merge(key.bind(self) => value.bind(self))
-      end
-    end
-  end
-
   class Deletion < Compound
     def to_options
       @options
@@ -25,7 +16,7 @@ module Arel
     def to_records
       ::Array.wrap(record).map do |record|
         record.inject({}) do |memo, (key, value)|
-          memo[key.to_mongo] = value.to_mongo; memo
+          memo[key.to_mongo] = key.mongo_format(value); memo
         end
       end
     end
@@ -36,12 +27,10 @@ module Arel
 
     def initialize(relation, record, options={})
       @relation = relation
-      @options  = options
-      @record   = if ::Array === record
-        record.map {|r| bind_to_record(r)}
-      else
-        bind_to_record(record)
-      end
+      @record = ::Array === record ?
+        record.map {|a| a.bind(relation)}
+        : record.bind(relation)
+      @options = options
     end
   end
 
@@ -49,7 +38,7 @@ module Arel
     def to_modifier
       if Hash === assignments
         assignments.inject({}) do |memo, (key, value)|
-          memo[key.to_mongo] = value.to_mongo; memo
+          memo[key.to_mongo] = key.mongo_format(value); memo
         end
       else
         ::Array.wrap(assignments).inject({}) do |hsh, modifier|
@@ -69,13 +58,11 @@ module Arel
     end
 
     def initialize(relation, assignments, options={})
-      @relation    = relation
-      @options     = options
-      @assignments = if ::Array === assignments
-        assignments.map {|a| bind_to_record(a)}
-      else
-        bind_to_record(assignments)
-      end
+      @relation = relation
+      @assignments = ::Array === assignments ?
+        assignments.map {|a| a.bind(relation)}
+        : assignments.bind(relation)
+      @options = options
     end
   end
 end

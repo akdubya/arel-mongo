@@ -33,6 +33,16 @@ module Arel
       def scalar(scalar)
         environment.mongo_value(scalar)
       end
+
+      def embedded(hash)
+        hash
+      end
+    end
+
+    class Element < Attribute
+      def embedded(hash)
+        hash
+      end
     end
 
     class Value < WhereCondition

@@ -23,7 +23,7 @@ module Arel
       def mongo_operator; end
 
       def to_mongo
-        {mongo_operator => {operand1.to_mongo => operand2.to_mongo}}
+        {mongo_operator => {operand1.to_mongo => operand1.mongo_format(operand2)}}
       end
 
       def ==(other)

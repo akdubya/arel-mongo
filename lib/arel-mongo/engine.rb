@@ -57,6 +57,10 @@ module Arel
       end
       include CRUD
 
+      def inspect
+        "<#{self.class.name} #{db.name}>"
+      end
+
       private
 
       def group(name, groupings, selector, projections)
