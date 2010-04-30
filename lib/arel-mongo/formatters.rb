@@ -39,9 +39,15 @@ module Arel
       end
     end
 
-    class Element < Attribute
+    class Element < Formatter
       def embedded(hash)
-        hash
+        hash.inject({}) do |h, (attr, value)|
+          h.merge!(attr.to_mongo => attr.mongo_format(value))
+        end
+      end
+
+      def value(value)
+        value
       end
     end
 
