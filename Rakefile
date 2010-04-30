@@ -1,12 +1,18 @@
 require 'rubygems'
 require 'rake'
 
+require File.expand_path('../lib/arel-mongo/version.rb', __FILE__)
+
+version = Arel::Mongo::VERSION
+
 begin
   require 'jeweler'
   Jeweler::Tasks.new do |gem|
     gem.name = "arel-mongo"
+    gem.version = version
     gem.summary = %Q{MongoDB engine for Arel}
-    gem.description = %Q{MongoDB engine for Arel}
+    gem.description = %Q{Arel Mongo is a MongoDB engine for Arel featuring support
+for embedded documents, modifiers and other Mongo-specific features.}
     gem.email = "alekswilliams@earthlink.net"
     gem.homepage = "http://github.com/akdubya/arel-mongo"
     gem.authors = ["akdubya"]
@@ -36,8 +42,6 @@ task :default => :spec
 
 require 'rake/rdoctask'
 Rake::RDocTask.new do |rdoc|
-  version = File.exist?('VERSION') ? File.read('VERSION') : ""
-
   rdoc.rdoc_dir = 'rdoc'
   rdoc.title = "arel-mongo #{version}"
   rdoc.rdoc_files.include('README*')
