@@ -25,6 +25,10 @@ module Arel
       it 'finds the congruent attribute on the element' do
         @element[:town].should == Attributes::String.new(@target, :town).bind(@element)
       end
+
+      it 'manufactures a generic attribute if no matching attribute is found' do
+        @element[:foo].should == Attributes::Generic.new(@element, :foo)
+      end
     end
 
     describe '#to_element' do
@@ -40,6 +44,33 @@ module Arel
         new_target = Embedded.new(:foo)
         @element.to_element(new_target).should == Element.new(@relation, :address,
           :target => new_target, :ancestor => @element)
+      end
+    end
+
+    describe '#as' do
+      it 'returns an aliased element' do
+        @element.as.should == Element.new(@relation, :address, :alias => nil,
+          :ancestor => @element, :target => @target)
+      end
+    end
+
+    describe '#bind' do
+      it 'returns a bound element' do
+        new_relation = Collection.new(:admins)
+        @element.bind(new_relation).should == Element.new(new_relation, :address,
+          :alias => nil, :ancestor => @element, :target => @target)
+      end
+    end
+
+    describe '#mongo_format' do
+      it 'converts an embedded value to Mongo format' do
+        elem = {'foo' => 'bar'}.bind(@relation)
+        @element.mongo_format(elem).should == {'foo' => 'bar'}
+      end
+
+      it 'converts an embedded attribute hash to Mongo format' do
+        elem = {@target[:town] => 'Timbuktu', @target[:zip] => '12345'}
+        @element.mongo_format(elem).should == {"town" => "Timbuktu", "zip" => 12345}
       end
     end
   end
