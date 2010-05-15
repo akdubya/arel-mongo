@@ -1,0 +1,8 @@
+require 'arel-mongo/engines/mongo/engine'
+require 'arel-mongo/engines/mongo/relations'
+require 'arel-mongo/engines/mongo/primitives'
+require 'arel-mongo/engines/mongo/predicates'
+require 'arel-mongo/engines/mongo/modifiers'
+require 'arel-mongo/engines/mongo/formatters'
+require 'arel-mongo/engines/mongo/core_extensions'
+require 'arel-mongo/engines/mongo/utilities/mongo'

@@ -1,39 +1,10 @@
 module Arel
   module Modifiers
-    class Modifier; end
-
-    class Unary < Modifier
-      attributes :operand
-      deriving   :initialize
-
-      def ==(other)
-        self.class === other and
-        @operand == other.operand
-      end
-
-      def bind(relation)
-        self.class.new(operand.find_correlate_in(relation))
-      end
-    end
-
     class Binary < Modifier
-      attributes :operand1, :operand2
-      deriving :initialize
-
       def mongo_operator; end
 
       def to_mongo
         {mongo_operator => {operand1.to_mongo => operand1.mongo_format(operand2)}}
-      end
-
-      def ==(other)
-        self.class === other          and
-        @operand1  ==  other.operand1 and
-        @operand2  ==  other.operand2
-      end
-
-      def bind(relation)
-        self.class.new(operand1.find_correlate_in(relation), operand2.find_correlate_in(relation))
       end
     end
 
