@@ -4,7 +4,7 @@ module Arel
 
     attributes :relation1, :relation2
     deriving :==, :initialize
-    delegate :name, :to => :relation1
+    delegate :name, :load, :to => :relation1
 
     def hash
       @hash ||= relation1.hash ^ relation2.hash
