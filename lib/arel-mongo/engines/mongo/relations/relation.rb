@@ -50,8 +50,8 @@ module Arel
         end
       end
 
-      def row_klass
-        Document
+      def load(relation, tuple)
+        Document.new(relation, tuple)
       end
 
       private

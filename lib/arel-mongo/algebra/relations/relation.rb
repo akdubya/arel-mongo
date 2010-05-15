@@ -12,8 +12,8 @@ module Arel
       session.delete Deletion.new(self, options)
     end
 
-    def row_klass
-      @row_klass ||= Row
+    def load(relation, tuple)
+      Row.new(relation, tuple)
     end
 
     def |(other)

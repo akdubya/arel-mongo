@@ -37,7 +37,7 @@ module Arel
             cursor
           end
 
-          Cursor.new(results, relation.attributes)
+          Cursor.new(results, relation.attributes, relation)
         end
 
         def update(relation)

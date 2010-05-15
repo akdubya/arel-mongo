@@ -8,8 +8,8 @@ module Arel
     include Recursion::BaseCase
     deriving :==, :initialize
 
-    def initialize(cursor, attribute_names_and_types)
-      @cursor, @attribute_names_and_types = cursor.to_enum, attribute_names_and_types
+    def initialize(cursor, attribute_names_and_types, original_relation=self)
+      @cursor, @attribute_names_and_types, @original_relation = cursor.to_enum, attribute_names_and_types, original_relation
     end
 
     def engine
@@ -51,7 +51,7 @@ module Arel
     include Enumerable
 
     def coerce_row(row)
-      Document.new(self, row)
+      @original_relation.load(self, row)
     end
 
     def eval

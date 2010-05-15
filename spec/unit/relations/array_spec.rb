@@ -5,14 +5,14 @@ module Arel
     before do
       @relation = Array.new([{'id' => 1, 'name' => 'bob'}],
         [[:id, Attributes::Integer], [:name, Attributes::String]],
-        Document)
+        Collection.new(:foo))
       @attribute1 = @relation[:id]
       @attribute2 = @relation[:name]
     end
 
-    describe 'when initialized with a Document row class' do
+    describe 'when initialized with a Collection' do
       it 'instantiates rows as documents' do
-        @relation.first.should be_a_kind_of Document
+        @relation.first.should be_a Document
         @relation.first[@relation[:name]].should == 'bob'
       end
     end
