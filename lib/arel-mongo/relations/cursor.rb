@@ -2,7 +2,7 @@ require 'hamster/list'
 
 module Arel
   class Cursor
-    include Relation
+    include Mongo::Relation
 
     attributes :cursor, :attribute_names_and_types
     include Recursion::BaseCase

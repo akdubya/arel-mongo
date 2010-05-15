@@ -1,6 +1,6 @@
 module Arel
   class Collection
-    include Relation, Recursion::BaseCase
+    include Mongo::Relation, Recursion::BaseCase
 
     cattr_accessor :engine, :collections
     attr_reader :name, :engine, :options, :attributes
@@ -12,26 +12,6 @@ module Arel
         attr = type.new(self, attr) if Symbol === attr
         attr
       end)
-    end
-
-    def [](index)
-      super || case index
-      when String
-        names = index.split('.')
-        return build_element(names) if names.length > 1
-        Attributes::Generic.new(self, index)
-      when Symbol
-        Attributes::Generic.new(self, index)
-      end
-    end
-
-    private
-
-    def build_element(names)
-      first = self[names.shift]
-      names.inject(first) do |element, name|
-        element = element[name]
-      end
     end
   end
 end
