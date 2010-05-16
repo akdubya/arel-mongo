@@ -1,6 +1,36 @@
 = arel-mongo
 
-Description goes here.
+An experimental MongoDB engine for Arel.
+
+== Quick Tour
+
+Arel::Collection is comparable to Arel::Table, except Collections may be initialized
+with attributes for typecasting:
+
+  users = Collection.new(:users,
+    :attributes => [[:name, Attributes::String, :profile, Attributes::Hash]])
+
+  users.insert([{ :name => 'bob', :profile => { :location => 'Earth', :rating => 1 } }])
+
+The standard Arel predicates and operators work as expected:
+
+  users.where(users[:name].eq('bob'))
+  # => { users[:_id] => ..., users[:name] => 'bob', profile => {...} }
+
+But this would all be pointless without support for embedded documents,
+
+  users.where(users['profile.location'].eq('Earth'))
+  users.where(users[:profile].elem(users['profile.rating'].gte(1), users['profile.location'].eq('Earth')))
+
+and Mongo-specific predicates:
+
+  users.where(users[:name].exists(true))
+
+What about atomic updates?
+
+  users.where(users[:name].eq('bob')).update(users['profile.rating'].incr(1))
+
+Sweet!
 
 == Note on Patches/Pull Requests
  
