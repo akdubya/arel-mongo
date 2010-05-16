@@ -2,9 +2,9 @@
 
 An experimental MongoDB engine for Arel.
 
-== Quick Tour
+== A Quick Tour
 
-Arel::Collection is comparable to Arel::Table, except Collections may be initialized
+Arel::Collection is comparable to Arel::Table. Collections may be initialized
 with attributes for typecasting:
 
   users = Collection.new(:users,
@@ -12,10 +12,10 @@ with attributes for typecasting:
 
   users.insert([{ :name => 'bob', :profile => { :location => 'Earth', :rating => 1 } }])
 
-The standard Arel predicates and operators work as expected:
+The standard Arel predicates and operators work as expected.
 
   users.where(users[:name].eq('bob'))
-  # => { users[:_id] => ..., users[:name] => 'bob', profile => {...} }
+  # => { users[:_id] => ..., users[:name] => 'bob', users[:profile] => {...} }
 
 But this would all be pointless without support for embedded documents,
 
@@ -26,11 +26,17 @@ and Mongo-specific predicates:
 
   users.where(users[:name].exists(true))
 
+Arel Mongo also supports MongoDB cursors with efficient caching thanks to Hamster.
+
 What about atomic updates?
 
   users.where(users[:name].eq('bob')).update(users['profile.rating'].incr(1))
 
 Sweet!
+
+== Status
+
+This is a conversation-starter for now.
 
 == Note on Patches/Pull Requests
  
